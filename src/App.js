@@ -4,27 +4,20 @@ import "./App.css";
 import "./../node_modules/normalize.css";
 
 import { BrowserRouter, Route } from "react-router-dom";
-import {
-  Box,
-  AppBar,
-  Tabs,
-  Tab,
-  Typography,
-  makeStyles,
-} from "@material-ui/core";
+import { Box, AppBar, Tabs, Tab, Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 import CardItem from "./components/CardItem";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    // flexGrow: 1,
-    // backgroundColor: theme.palette.background.paper,
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     // flexGrow: 1,
+//     // backgroundColor: theme.palette.background.paper,
+//   },
+// }));
 
 const App = (props) => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {

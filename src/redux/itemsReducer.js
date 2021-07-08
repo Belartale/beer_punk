@@ -6,8 +6,7 @@ const itemsReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOOK: {
       return {
-        ...state,
-        beers: action.items,
+        ...action.items,
       };
     }
     default: {

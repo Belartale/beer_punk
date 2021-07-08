@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   },
 });
 
-const CardItem = () => {
+const CardItem = (props) => {
   const classes = useStyles();
 
   const beerImg =
@@ -40,7 +40,7 @@ const CardItem = () => {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Name
+            name
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             ABV
@@ -51,40 +51,48 @@ const CardItem = () => {
   );
 };
 
-class CardItemAPIComponent extends React.Component {
-  componentDidMount() {
-    this.props.setItems(itemAPI.getAllItems());
+const CardItemAPIComponent = async (props) => {
+  await itemAPI.getAllItems().then((res) => {
+    this.props.setItems(res);
+  });
 
-    //
-    //
-    //
+  await console.log(this.props.items);
+  return (
+    <div>
+      {this.props.items.map((e) => (
+        <CardItem items={e} />
+      ))}
+    </div>
+  );
+};
+// class CardItemAPIComponent extends React.Component {
+//   componentDidMount() {
+//     itemAPI.getAllItems().then((res) => {
+//       this.props.setItems(res);
+//       // console.log(res.data);
+//     });
 
-    // console.log(window.store.getState().items);
+//     // itemAPI.getAllItems(null, (data) => {
+//     //   this.props.setItems(data);
+//     // });
+//   }
 
-    //
-    //
-    //
-  }
-  render() {
-    return (
-      <div>
-        <CardItem />
-      </div>
-    );
-  }
-}
+//   // render() {
+//   //   console.log(this.props);
+//   //   return <CardItem />;
+//   // }
 
-////////////////////////////
-////////////////////////////
-////////////////////////////
-////////////////////////////
-////////////////////////////
-////////////////////////////
-////////////////////////////
-////////////////////////////
-////////////////////////////
-////////////////////////////
-////////////////////////////
+//   render() {
+//     console.log(this.props.items);
+//     return (
+//       <div>
+//         {this.props.items.map((e) => (
+//           <CardItem items={e} />
+//         ))}
+//       </div>
+//     );
+//   }
+// }
 
 const mapStateProps = (state) => {
   return {
