@@ -12,62 +12,51 @@ import {
   Typography,
   Link,
   Container,
+  makeStyles,
+  Button,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 import { NavLink } from "react-router-dom";
 
 import CardBeer from "./components/CardBeer";
-import CardPage from "./components/CardPage";
+import CardPage from "./components/CardPage/CardPage";
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     // flexGrow: 1,
-//     // backgroundColor: theme.palette.background.paper,
-//   },
-// }));
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: 20,
+  },
+  navBarLink: {
+    textDecoration: "none",
+    marginRight: 30,
+    color: "black",
+    fontSize: 20,
+  },
+}));
 
 const App = (props) => {
-  // const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const classes = useStyles();
 
   return (
     <BrowserRouter>
       <Box>
-        {/* <AppBar position="static">
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="simple tabs example"
-          >
-            <Tab label="beers that pair with pizza" {...a11yProps(0)} />
-            <Tab label="beers that pair with steak" {...a11yProps(1)} />
-            <Tab label="all available beers" {...a11yProps(2)} />
-          </Tabs>
-        </AppBar>
-        <TabPanel value={value} index={0}>
-          One
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <Route path="/tabs/all-beers/:id?" render={() => <CardBeer />} />
-        </TabPanel> */}
-
-        <AppBar position="static">
+        <AppBar position="static" className={classes.root}>
           <nav>
-            <NavLink to="/tabs/beers-with-pizza/">
-              beers that pair with pizza............
+            <NavLink
+              to="/tabs/beers-with-pizza/"
+              className={classes.navBarLink}
+            >
+              <Button variant="outlined">Beers that pair with pizza</Button>
             </NavLink>
-            <NavLink to="/tabs/beers-with-steak/">
-              beers that pair with steak............
+            <NavLink
+              to="/tabs/beers-with-steak/"
+              className={classes.navBarLink}
+            >
+              <Button variant="outlined">Beers that pair with steak</Button>
             </NavLink>
-            <NavLink to="/tabs/all-beers/">all available beers</NavLink>
+            <NavLink to="/tabs/all-beers/" className={classes.navBarLink}>
+              <Button variant="outlined">All available beers</Button>
+            </NavLink>
           </nav>
         </AppBar>
         <Container>
@@ -89,38 +78,5 @@ const App = (props) => {
     </BrowserRouter>
   );
 };
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
 
 export default App;

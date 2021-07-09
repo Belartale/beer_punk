@@ -2,9 +2,11 @@ import React from "react";
 
 import { connect } from "react-redux";
 
-import { setOneBeerAC } from "../redux/itemsReducer";
+import { setOneBeerAC } from "../../redux/itemsReducer";
 
-import itemAPI from "../api/api";
+import TextCollapse from "./TextCollapse";
+
+import itemAPI from "../../api/api";
 
 import { withRouter } from "react-router-dom";
 
@@ -24,14 +26,14 @@ const useStyles = makeStyles({
   },
   media: {
     height: 140,
+    backgroundSize: "contain",
   },
+  cardIndentMY: { marginTop: 10, marginBottom: 10 },
 });
 
 const CardPage = (props) => {
   let sss = props.oneItem;
-
   let result = {};
-
   for (const key in sss) {
     if (Object.hasOwnProperty.call(sss, key)) {
       const element = sss[key];
@@ -39,10 +41,31 @@ const CardPage = (props) => {
     }
   }
 
-  console.log(result);
-
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
+
+  // function WithoutTextCollapse(params) {
+  //   return;
+  // }
+
+  function CheckTextLength(params) {
+    // if (params.length > 100) {
+    //   return <TextCollapse data={params} />;
+    // } else {
+    //   return params;
+    // }
+
+    if (typeof params === "string") {
+      if (params.length > 100) {
+        return (
+          <TextCollapse data={params} title="Description about this beer" />
+        );
+      } else {
+        return params;
+      }
+    } else if (typeof params === "object") {
+      return <TextCollapse data={params} title="Food pairing with this beer" />;
+    }
+  }
 
   return (
     <Box mt={5} mx="auto" className={classes.root}>
@@ -55,23 +78,38 @@ const CardPage = (props) => {
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-              Lizard
+              {result.name}
             </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica
+            <Typography
+              className={classes.cardIndentMY}
+              variant="body2"
+              color="textSecondary"
+              component="p"
+            >
+              {result.tagline}
+            </Typography>
+            <Typography variant="body3" color="textSecondary" component="p">
+              {result.abv}
+            </Typography>
+            <Typography
+              className={classes.cardIndentMY}
+              variant="body4"
+              color="textSecondary"
+              component="p"
+            >
+              {CheckTextLength(result.description)}
+              {/* <TextCollapse data={result.description} /> */}
+              {/* {result.description} */}
+            </Typography>
+            <Typography variant="body5" color="textSecondary" component="p">
+              {/* {result.food_pairing} */}
+              {CheckTextLength(result.food_pairing)}
+              {/* {result.food_pairing.map((e) => (
+                <p>{e}</p>
+              ))} */}
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          Ca
-          <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
-          </Button>
-        </CardActions>
       </Card>
     </Box>
   );
@@ -85,11 +123,15 @@ class CardPageAPIComponent extends React.Component {
   }
 
   render() {
-    return (
-      <>
-        <CardPage oneItem={this.props.oneItem} />
-      </>
-    );
+    if (this.props.oneItem !== undefined) {
+      return (
+        <>
+          <CardPage oneItem={this.props.oneItem} />
+        </>
+      );
+    } else {
+      return <p>I didn't find data about this beer</p>;
+    }
   }
 }
 

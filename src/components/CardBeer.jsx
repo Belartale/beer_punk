@@ -5,6 +5,8 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
 
 import { connect } from "react-redux";
 
@@ -14,20 +16,24 @@ import itemAPI from "../api/api";
 
 import { NavLink, withRouter } from "react-router-dom";
 
-const useStyles = makeStyles({
+import * as _ from "lodash";
+
+const useStylesCardBeer = makeStyles({
   root: {
-    maxWidth: 345,
+    width: 300,
+    margin: 10,
   },
   media: {
     height: 140,
+    backgroundSize: "contain",
   },
 });
 
 const CardBeer = (props) => {
-  const classes = useStyles();
+  const classes = useStylesCardBeer();
 
   let createCards = props.items.map((card) => (
-    <NavLink to={`/beer/${card.id}`}>
+    <NavLink to={`/beer/${card.id}`} style={{ textDecoration: "none" }}>
       <Card className={classes.root}>
         <CardActionArea>
           <CardMedia
@@ -51,15 +57,60 @@ const CardBeer = (props) => {
   return <>{createCards}</>;
 };
 
+const useStylesButtonsSortBeers = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+    justifyContent: "center",
+  },
+}));
+
+const ButtonsSortBeers = (props) => {
+  const classes = useStylesButtonsSortBeers();
+
+  function sortNameAscending() {
+    props.setBeers(_.sortBy(props.data, [(o) => o.name]));
+  }
+  function sortNameDescending() {
+    props.setBeers(_.sortBy(props.data, [(o) => o.name]).reverse());
+  }
+
+  function sortABVAscending() {
+    props.setBeers(_.sortBy(props.data, [(o) => o.abv]));
+  }
+  function sortABVDescending() {
+    props.setBeers(_.sortBy(props.data, [(o) => o.abv]).reverse());
+  }
+
+  return (
+    <div className={classes.root}>
+      <ButtonGroup
+        orientation="vertical"
+        color="primary"
+        aria-label="vertical outlined primary button group"
+      >
+        <Button onClick={sortNameAscending}>name ascending</Button>
+        <Button onClick={sortNameDescending}>name descending</Button>
+      </ButtonGroup>
+      <ButtonGroup
+        orientation="vertical"
+        color="primary"
+        aria-label="vertical outlined primary button group"
+      >
+        <Button onClick={sortABVAscending}>abv ascending</Button>
+        <Button onClick={sortABVDescending}>abv descending</Button>
+      </ButtonGroup>
+    </div>
+  );
+};
+
 class CardBeerAPIComponent extends React.Component {
   componentDidMount() {
     itemAPI.getAllBeers().then((res) => {
       this.props.setBeers(res.data);
     });
-
-    // itemAPI.getAllBeers(null, (data) => {
-    //   this.props.setBeers(data);
-    // });
 
     if (this.props.with) {
       itemAPI.getBeersWithWho(this.props.with).then((e) => {
@@ -81,15 +132,28 @@ class CardBeerAPIComponent extends React.Component {
     }
 
     return (
-      <>
-        <CardBeer
-          items={createCards({
-            items: this.props.items,
-            with: this.props.with,
-          })}
-          with={this.props.with}
+      <div>
+        <ButtonsSortBeers
+          data={this.props.items}
+          setBeers={this.props.setBeers}
         />
-      </>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            marginTop: "30px",
+          }}
+        >
+          <CardBeer
+            items={createCards({
+              items: this.props.items,
+              with: this.props.with,
+            })}
+            with={this.props.with}
+          />
+        </div>
+      </div>
     );
   }
 }
