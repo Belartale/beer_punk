@@ -4,18 +4,7 @@ import "./App.css";
 import "./../node_modules/normalize.css";
 
 import { BrowserRouter, Route } from "react-router-dom";
-import {
-  Box,
-  AppBar,
-  Tabs,
-  Tab,
-  Typography,
-  Link,
-  Container,
-  makeStyles,
-  Button,
-} from "@material-ui/core";
-import PropTypes from "prop-types";
+import { Box, AppBar, Container, makeStyles, Button } from "@material-ui/core";
 
 import { NavLink } from "react-router-dom";
 
@@ -34,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const App = (props) => {
+const App = () => {
   const classes = useStyles();
 
   return (

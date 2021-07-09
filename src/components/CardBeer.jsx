@@ -148,7 +148,6 @@ class CardBeerAPIComponent extends React.Component {
           <CardBeer
             items={createCards({
               items: this.props.items,
-              with: this.props.with,
             })}
             with={this.props.with}
           />

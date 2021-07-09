@@ -15,12 +15,6 @@ const itemAPI = {
   getBeersWithWho(params) {
     return instance.get(`?food=${params}&per_page=80`);
   },
-
-  // getAllBeers(params, callback) {
-  //   return instance.get(`?page=1&per_page=10`).then((res) => {
-  //     callback(res.data);
-  //   });
-  // },
 };
 
 export default itemAPI;

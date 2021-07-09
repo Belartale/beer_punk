@@ -13,10 +13,8 @@ import { withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Box } from "@material-ui/core";
 
@@ -98,15 +96,9 @@ const CardPage = (props) => {
               component="p"
             >
               {CheckTextLength(result.description)}
-              {/* <TextCollapse data={result.description} /> */}
-              {/* {result.description} */}
             </Typography>
             <Typography variant="body5" color="textSecondary" component="p">
-              {/* {result.food_pairing} */}
               {CheckTextLength(result.food_pairing)}
-              {/* {result.food_pairing.map((e) => (
-                <p>{e}</p>
-              ))} */}
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -145,17 +137,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setOneBeer: (item) => {
       dispatch(setOneBeerAC(item));
-      // let dataToObj = (param) => {
-      //   let obj = {};
-      //   for (const key in param) {
-      //     obj = { ...param[key] };
-      //   }
-      //   console.log(obj);
-      //   return obj;
-      // };
-      // let result = dataToObj(item);
-
-      // dispatch(setOneBeerAC(result));
     },
   };
 };
