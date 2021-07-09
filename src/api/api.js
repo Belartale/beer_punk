@@ -6,12 +6,16 @@ const instance = axios.create({
 });
 
 const itemAPI = {
-  getItem(params) {
-    return instance.get(`/1`).then((res) => res);
+  getBeer(params) {
+    return instance.get(`/${params}`);
   },
-  getAllItems(params) {
-    return instance.get(`?page=1&per_page=10`);
+  getAllBeers(params) {
+    return instance.get(`?page=1&per_page=80`);
   },
+  getBeersWithWho(params) {
+    return instance.get(`?food=${params}&per_page=80`);
+  },
+
   // getAllBeers(params, callback) {
   //   return instance.get(`?page=1&per_page=10`).then((res) => {
   //     callback(res.data);
